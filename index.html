@@ -51,8 +51,9 @@ onDeviceReady = function() {
 						// the number of rows returned by the select statement
 						console.log( "Insert ID = " + results.rows.length )
 
-						for( i in results.rows ) {
-							alert( 'i:' + results[ i ] )
+						for( i = 0; i < results.rows.length; i++ ) {
+							var result = results.rows.item( i )
+							alert( 'id:' + result.id + ' data:' + result.data )
 						}
 					} else {
 						alert( 'No console :(' )
