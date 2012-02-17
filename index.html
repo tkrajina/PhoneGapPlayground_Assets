@@ -69,6 +69,59 @@ onDeviceReady = function() {
 		}
 	)
 
+	dbShell.transaction(
+		function( tx ) {
+			tx.executeSql(
+				'update demo set data = ? where id = ?',
+				[ 'izmijenjeno', 1 ],
+				function( tx, results ) {
+					alert( 'Updated ' + results.rowsAffected + ' rows' )
+				},
+				function( err ) {
+					alert( "Error processing SQL: " + err.code )
+				}	
+			)
+		},
+		function( err ) {
+			alert( "Error processing SQL: " + err.code )
+		}
+	)
+
+	// Check if updated:
+	dbShell.transaction(
+		function( tx ) {
+			tx.executeSql(
+				'SELECT * FROM DEMO',
+				[],
+				function( tx, results ) {
+					// this will be empty since no rows were inserted.
+					if( console ) {
+						// this will be empty since no rows were inserted.
+						// console.log( "Insert ID = " + results.insertId )
+
+						// this will be 0 since it is a select statement
+						// console.log( "Rows Affected = " + results.rowAffected )
+
+						// the number of rows returned by the select statement
+						console.log( "Insert ID = " + results.rows.length )
+
+						for( i = 0; i < results.rows.length; i++ ) {
+							var result = results.rows.item( i )
+							alert( 'id:' + result.id + ' data:' + result.data )
+						}
+					} else {
+						alert( 'No console :(' )
+					}
+				},
+				function( err ) {
+					alert( "Error processing SQL: " + err.code )
+				}	
+			)
+		},
+		function( err ) {
+			alert( "Error processing SQL: " + err.code )
+		}
+	)
 }
 
 document.addEventListener( "deviceready", onDeviceReady, false );
